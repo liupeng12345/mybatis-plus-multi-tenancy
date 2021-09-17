@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
@@ -17,8 +17,6 @@ import com.alibaba.druid.sql.parser.SQLParserUtils;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

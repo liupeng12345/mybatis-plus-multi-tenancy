@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
 import lombok.Builder;
 import lombok.Data;

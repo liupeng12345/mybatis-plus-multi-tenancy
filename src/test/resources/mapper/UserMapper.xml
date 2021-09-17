@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.convertlab.mybatisplusmultitenancy.mapper.UserMapper">
+<mapper namespace="com.pzhu.mybatisplusmultitenancy.mapper.UserMapper">
 
-    <select id="getAllMsg" resultType="com.convertlab.mybatisplusmultitenancy.Message">
+    <select id="getAllMsg" resultType="com.pzhu.mybatisplusmultitenancy.Message">
         select message.*
         from user,
              message

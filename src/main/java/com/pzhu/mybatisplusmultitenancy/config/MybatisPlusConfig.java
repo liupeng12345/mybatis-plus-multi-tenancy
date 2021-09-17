@@ -16,15 +16,14 @@
  * limitations under the License.
  */
 
-package com.convertlab.mybatisplusmultitenancy.config;
+package com.pzhu.mybatisplusmultitenancy.config;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import com.convertlab.mybatisplusmultitenancy.tenant.ConditionSqlParserInnerInterceptor;
-import com.convertlab.mybatisplusmultitenancy.tenant.TenantLineHandler;
+import com.pzhu.mybatisplusmultitenancy.tenant.ConditionSqlParserInnerInterceptor;
+import com.pzhu.mybatisplusmultitenancy.tenant.TenantLineHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

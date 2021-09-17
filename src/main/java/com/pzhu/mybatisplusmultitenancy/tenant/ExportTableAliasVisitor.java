@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
 import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlASTVisitorAdapter;

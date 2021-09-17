@@ -1,9 +1,9 @@
-package com.convertlab.mybatisplusmultitenancy;
+package com.pzhu.mybatisplusmultitenancy;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.convertlab.mybatisplusmultitenancy.mapper.UserMapper;
-import com.convertlab.mybatisplusmultitenancy.tenant.ConditionSqlParserInnerInterceptor;
+import com.pzhu.mybatisplusmultitenancy.mapper.UserMapper;
+import com.pzhu.mybatisplusmultitenancy.tenant.ConditionSqlParserInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;

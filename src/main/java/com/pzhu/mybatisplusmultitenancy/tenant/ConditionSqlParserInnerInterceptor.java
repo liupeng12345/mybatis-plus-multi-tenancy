@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.ast.SQLExpr;

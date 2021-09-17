@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy;
+package com.pzhu.mybatisplusmultitenancy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

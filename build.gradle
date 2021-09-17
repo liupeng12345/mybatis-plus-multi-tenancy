@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.convertlab'
+group = 'com.pzhu'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 

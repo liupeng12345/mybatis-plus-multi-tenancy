@@ -1,6 +1,5 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
-import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
@@ -8,7 +7,6 @@ import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
 import com.alibaba.druid.sql.ast.statement.SQLUpdateStatement;
 import com.alibaba.druid.sql.dialect.h2.parser.H2StatementParser;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
-import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.AllArgsConstructor;
 import lombok.Data;

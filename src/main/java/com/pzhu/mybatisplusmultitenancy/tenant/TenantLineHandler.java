@@ -1,4 +1,4 @@
-package com.convertlab.mybatisplusmultitenancy.tenant;
+package com.pzhu.mybatisplusmultitenancy.tenant;
 
 import net.sf.jsqlparser.schema.Column;
 
