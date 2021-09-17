@@ -36,7 +36,7 @@ class MybatisPlusMultiTenancyApplicationTests {
 
     @Test
     public void testSelect() {
-        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor();
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         conditionSqlParserInnerInterceptor.parserSingle("SELECT t_filter.customer_id FROM (\n" +
                 "    SELECT customer_id FROM wechat_fans WHERE   subscribe = 1 ORDER BY customer_id DESC LIMIT 5000\n" +
                 ") t_filter INNER JOIN customer_access_control cac\n" +
@@ -51,14 +51,14 @@ class MybatisPlusMultiTenancyApplicationTests {
 
     @Test
     public void testInsert() {
-        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor();
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         conditionSqlParserInnerInterceptor.parserSingle("insert INTO Persons(age,u,b,d) VALUES ('Gates', 'Bill', 'Xuanwumen 10', 'Beijing')", null);
     }
 
 
     @Test
     public void TestBatchSave() {
-        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor();
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         conditionSqlParserInnerInterceptor.parserSingle("\n" +
                 "INSERT INTO \n" +
                 " \n" +
@@ -74,7 +74,7 @@ class MybatisPlusMultiTenancyApplicationTests {
 
     @Test
     public void TestDelete() {
-        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor();
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         conditionSqlParserInnerInterceptor.parserSingle("delete from user where name in (select a from b)", null);
         userMapper.delete(new LambdaQueryWrapper<User>().eq(User::getId, 1));
         conditionSqlParserInnerInterceptor.parserSingle("delete from user where name in (select a from b)", null);
@@ -89,33 +89,13 @@ class MybatisPlusMultiTenancyApplicationTests {
     public void TestCache() {
         final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         long start, end;
-        start = System.currentTimeMillis();
-        conditionSqlParserInnerInterceptor.parserSingle("select id from a left join h on h.sex = a.sex  left join (select * from f ,( select * from d ) ) b  on b.name = a.name left join c c1  on c1.name = b.name  where id in  (select * from g where  name in ( select * from k)) union all select * from p", null);
-        end = System.currentTimeMillis();
-        System.err.println(end - start);
-        start = System.currentTimeMillis();
-        conditionSqlParserInnerInterceptor.parserSingle("select \n" +
-                "    sc.cid as `课程ID`, \n" +
-                "    course.cname as `课程名称`,\n" +
-                "    count(1) as `选学人数`,\n" +
-                "    count(case when score < 60 then null else 1 end) as `合格人数`,\n" +
-                "    count(case when score < 60 then 1 else null end) as `不合格人数`,\n" +
-                "    round(avg(score)) as `平均成绩`,\n" +
-                "    round(count(case when score < 60 then null else 1 end) / count(1), 2) as `通过率`,\n" +
-                "    sum(case when score>= 85 then 1 else 0 end) as `100 - 85`,\n" +
-                "    sum(case when score>= 70 and score< 85 then 1 else 0 end) as `85 - 70`,\n" +
-                "    sum(case when score>= 60 and score<70 then 1 else 0 end) as `70 - 60`,\n" +
-                "    sum(case when score< 60 then 1 else 0 end) as `60 - 0`\n" +
-                "from sc, course\n" +
-                "where sc.Cid = course.Cid\n" +
-                "group by sc.Cid", null);
-        end = System.currentTimeMillis();
-        System.err.println(end - start);
+        for (int i = 0; i < 2; i++) {
+            start = System.currentTimeMillis();
+            conditionSqlParserInnerInterceptor.parserSingle("select id from a left join h on h.sex = a.sex  left join (select * from f ,( select * from d ) ) b  on b.name = a.name left join c c1  on c1.name = b.name  where id in  (select * from g where  name in ( select * from k)) union all select * from p", null);
+            end = System.currentTimeMillis();
+            System.err.println(end - start);
+        }
 
-        start = System.currentTimeMillis();
-        conditionSqlParserInnerInterceptor.parserSingle("select count(*) from ( select * from b ) ", null);
-        end = System.currentTimeMillis();
-        System.err.println(end - start);
     }
 
 }

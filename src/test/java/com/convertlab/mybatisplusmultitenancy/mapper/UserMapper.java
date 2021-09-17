@@ -20,6 +20,4 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
     List<Message> getAllMsg(@Param("name") String name);
 
-    int insertBatch(@Param("userCollection") Collection<User> userCollection);
-
 }

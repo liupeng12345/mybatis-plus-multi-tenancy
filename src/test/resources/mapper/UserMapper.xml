@@ -17,38 +17,4 @@
         where user.id = message.user_id
           and user.name = #{name}
     </select>
-    <insert id="insertBatch">
-        insert into user(id,name,age,
-        email,tenant_id)
-        values
-        <foreach collection="userCollection" item="item" separator=",">
-            (#{item.id,jdbcType=NUMERIC},#{item.name,jdbcType=VARCHAR},#{item.age,jdbcType=NUMERIC},
-            #{item.email,jdbcType=VARCHAR},#{item.tenantId,jdbcType=NUMERIC})
-        </foreach>
-    </insert>
-    <select id="searchAllByAgeAndIdAndNameAndNameAndNameAndName" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user
-        <where>
-            <if test="age != null">
-                age = #{age,jdbcType=NUMERIC}
-            </if>
-            <if test="id != null">
-                AND id = #{id,jdbcType=NUMERIC}
-            </if>
-            <if test="name != null and name != ''">
-                AND name = #{name,jdbcType=VARCHAR}
-            </if>
-            <if test="name != null and name != ''">
-                AND name = #{oldName,jdbcType=VARCHAR}
-            </if>
-            <if test="name != null and name != ''">
-                AND name = #{oldName,jdbcType=VARCHAR}
-            </if>
-            <if test="name != null and name != ''">
-                AND name = #{oldName,jdbcType=VARCHAR}
-            </if>
-        </where>
-    </select>
 </mapper>

@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Data
-@NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class ConditionSqlParserInnerInterceptor extends DruidParserSupport implements InnerInterceptor {
