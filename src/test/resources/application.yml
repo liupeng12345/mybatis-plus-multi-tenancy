@@ -10,7 +10,7 @@ spring:
 # Logger Config
 logging:
   level:
-    com.convertlab.mybatisplusmultitenancy: debug
+    com.pzhu.mybatisplusmultitenancy: debug
 mybatis-plus:
   # 扫描 mapper.xml
   mapper-locations: classpath:/mapper/*Mapper.xml

@@ -1,3 +1,9 @@
+
+
+
+
+
+
 ## Mybatis plus 多租户
 
 #### 介绍
@@ -99,7 +105,11 @@ protected String processParser(Statement statement, int index, String sql, Objec
 
 jsqlparser 对sql 要求比较严格，在 join 语句的处理上存在限制
 
-![image-20210917111321368](./doc/image-20210917111321368.png)
+![image-20210917111321368](/Users/liupeng/Desktop/image-20210917111321368.png)
+
+官方文档中也对此做出了说明
+
+![image-20210918162012131](./doc/image-20210918162012131.png)
 
 #### 多租户sql处理 的优化
 
@@ -184,9 +194,7 @@ public class ConditionSqlParserInnerInterceptor extends DruidParserSupport imple
     }
 ```
 
-
-
-#### select语句的处理
+##### select语句的处理
 
 对select 语句的 查询字段列表、from 语句、where 语句 进行分开处理，只要在其中遇到子查询就递归处理
 
@@ -307,7 +315,7 @@ public class ConditionSqlParserInnerInterceptor extends DruidParserSupport imple
 
 ##### 性能测试
 
-测试sql
+###### 测试select sql
 
 ```sql
 select id from a left join h on h.sex = a.sex  left join (select * from f ,( select * from d ) ) b  on b.name = a.name left join c c1  on c1.name = b.name  where id in  (select * from g where  name in ( select * from k)) union all select * from p
@@ -354,3 +362,98 @@ WHERE p.tenant_id = 1
 第一次处理耗时 200-300ms
 
 使用缓存后耗时 <5ms
+
+###### 测试 inertsql
+
+```sql
+INSERT INTO user  ( id,name,age,email )  VALUES  ( ?,?,?,? )
+```
+
+解析后
+
+```sql
+INSERT INTO user (id, name, age, email, tenant_id) VALUES (?, ?, ?, ?, 1)
+```
+
+###### 测试update sql
+
+```sql
+UPDATE user  SET name=?,age=?,email=? WHERE (age = ?)
+```
+
+解析后
+
+```sql
+UPDATE user SET name = ?, age = ?, email = ? WHERE age = ? AND user.tenant_id = 1
+```
+
+###### 测试delete sql
+
+```sql
+DELETE FROM user WHERE (age = ? AND name = ?)
+```
+
+解析后
+
+```sql
+DELETE FROM user
+WHERE age = ?
+	AND name = ?
+	AND user.tenant_id = 1
+```
+
+
+
+
+
+#### TenantLineHandler优化
+
+使用druid 后修改TenantLineHandler 的 直接返回long
+
+```java
+    /**
+     * 获取租户 ID 值表达式，只支持单个 ID 值
+     * <p>
+     *
+     * @return 租户 ID
+     */
+    Long getTenantId();
+```
+
+tenant_id继续使用ThreadLocal实现,其余框架，需要设计拦截器，在拦截器中实现tenant_id的设置来实现无感知。
+
+#### @WithoutTenant 
+
+可能有一些操作的sql 需要跨租户，可在方法上加上此注解
+
+```java
+@Documented
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface WithoutTenant {
+}
+
+@Slf4j
+@Aspect
+@AllArgsConstructor
+public class WithoutTenantAspect {
+
+    @Around("@annotation(com.convertlab.multitenancystater.annotation.WithoutTenant)")
+    public Object doWithoutTenant(ProceedingJoinPoint proceedingJoinPoint) {
+        final String tenant = TenantContext.getCurrentTenant();
+        try {
+            TenantContext.clear();
+            Object object =  proceedingJoinPoint.proceed();
+            return object;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            TenantContext.setCurrentTenant(tenant);
+        }
+        return null;
+    }
+}
+```
+
+
+

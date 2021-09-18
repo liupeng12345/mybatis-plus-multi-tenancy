@@ -40,12 +40,7 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new ConditionSqlParserInnerInterceptor(new TenantLineHandler() {
-            @Override
-            public Long getTenantId() {
-                return 1L;
-            }
-        }));
+        interceptor.addInnerInterceptor(new ConditionSqlParserInnerInterceptor(() -> 1L));
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.H2));
         return interceptor;
     }

@@ -2,6 +2,7 @@ package com.pzhu.mybatisplusmultitenancy;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.pzhu.mybatisplusmultitenancy.mapper.UserMapper;
 import com.pzhu.mybatisplusmultitenancy.tenant.ConditionSqlParserInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 
 @SpringBootTest
-@MapperScan("com.convertlab.mybatisplusmultitenancy.mapper")
+@MapperScan("com.pzhu.**.mapper")
 @Slf4j
 class MybatisPlusMultiTenancyApplicationTests {
 
@@ -89,13 +90,39 @@ class MybatisPlusMultiTenancyApplicationTests {
     public void TestCache() {
         final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
         long start, end;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             start = System.currentTimeMillis();
             conditionSqlParserInnerInterceptor.parserSingle("select id from a left join h on h.sex = a.sex  left join (select * from f ,( select * from d ) ) b  on b.name = a.name left join c c1  on c1.name = b.name  where id in  (select * from g where  name in ( select * from k)) union all select * from p", null);
             end = System.currentTimeMillis();
             System.err.println(end - start);
         }
 
+    }
+
+    @Test
+    public void TestInsert() {
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
+        final User user = new User();
+        user.setEmail("12312132");
+        user.setAge(1231);
+        user.setName("dsqw");
+        userMapper.insert(user);
+    }
+
+    @Test
+    public void TestUpdate(){
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
+        final User user = new User();
+        user.setEmail("12312132");
+        user.setAge(1231);
+        user.setName("dsqw");
+        userMapper.update(user,new LambdaUpdateWrapper<User>().eq(User::getAge,21));
+    }
+
+    @Test
+    public void TestDelete2(){
+        final ConditionSqlParserInnerInterceptor conditionSqlParserInnerInterceptor = new ConditionSqlParserInnerInterceptor(() -> 1L);
+        userMapper.delete(new LambdaQueryWrapper<User>().eq(User::getAge,23).eq(User::getName,"adasd"));
     }
 
 }
