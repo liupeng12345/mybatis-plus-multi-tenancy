@@ -105,7 +105,7 @@ protected String processParser(Statement statement, int index, String sql, Objec
 
 jsqlparser 对sql 要求比较严格，在 join 语句的处理上存在限制
 
-![image-20210917111321368](/Users/liupeng/Desktop/image-20210917111321368.png)
+![image-20210917111321368](./doc/image-20210917111321368.png)
 
 官方文档中也对此做出了说明
 
